@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper: is the requester a verified, approved staff member?
+    function isStaff() {
+      return request.auth != null
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'staff'
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.approved == true;
+    }
+
+    // USER PROFILES
+    // - anyone signed in can read their own profile
+    // - staff can read any profile (to see student names)
+    // - users can only create their own profile; role cannot be
+    //   self-upgraded to staff+approved (approval is done by admin
+    //   in the Firebase console)
+    match /users/{uid} {
+      allow read: if request.auth != null && (request.auth.uid == uid || isStaff());
+      allow create: if request.auth != null
+        && request.auth.uid == uid
+        && (request.resource.data.role != 'staff' || request.resource.data.approved == false);
+      allow update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.approved == resource.data.approved;
+    }
+
+    // CHECK-INS
+    // - students create their own and read only their own
+    // - ONLY approved staff can read everyone's (this is the
+    //   server-side enforcement of the lecturer-only dashboard)
+    match /checkins/{id} {
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid;
+      allow read: if request.auth != null
+        && (resource.data.uid == request.auth.uid || isStaff());
+      allow update, delete: if false;
+    }
+
+    // CAMPUS UPDATES
+    // - any signed-in user can read
+    // - only approved staff can post
+    match /updates/{id} {
+      allow read: if request.auth != null;
+      allow create: if isStaff();
+      allow update, delete: if false;
+    }
+  }
+}

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">CUG Wellbeing</string>
+    <string name="title_activity_main">CUG Wellbeing</string>
+    <string name="package_name">gh.edu.cug.wellbeing</string>
+    <string name="custom_url_scheme">gh.edu.cug.wellbeing</string>
+</resources>

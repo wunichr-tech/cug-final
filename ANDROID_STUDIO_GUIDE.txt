@@ -1,0 +1,73 @@
+# Building CUG Wellbeing APK in Android Studio
+
+This is a complete Android Studio project. The web app is already bundled in —
+you do NOT need to run any command line. Just open the `android` folder and build.
+
+────────────────────────────────────────────────────────
+WHAT YOU NEED
+────────────────────────────────────────────────────────
+- Android Studio (you already have this)
+- The unzipped project folder `cug-final`
+
+────────────────────────────────────────────────────────
+STEP 1 — Open the project
+────────────────────────────────────────────────────────
+1. Unzip this file onto your Desktop.
+2. Open Android Studio.
+3. On the welcome screen click "Open" (NOT "New Project").
+4. Navigate into:  cug-final  →  select the "android" folder
+   IMPORTANT: open the "android" folder, NOT the whole "cug-final" folder.
+5. Click OK.
+
+────────────────────────────────────────────────────────
+STEP 2 — Let it sync
+────────────────────────────────────────────────────────
+- Android Studio will say "Gradle sync in progress" at the bottom.
+- The first time, this downloads Gradle + Android tools. Wait 3–8 minutes.
+- If it asks to "Upgrade Gradle plugin" — click "Don't ask again" or "Skip".
+- If it asks to install missing SDK components — click "Install" and accept.
+- Wait until the bottom status bar says "Gradle sync finished".
+
+────────────────────────────────────────────────────────
+STEP 3 — Build the APK
+────────────────────────────────────────────────────────
+1. In the top menu click:  Build
+2. Choose:  Build Bundle(s) / APK(s)
+3. Choose:  Build APK(s)
+4. Wait 1–3 minutes. A popup appears bottom-right:
+   "APK(s) generated successfully"
+5. Click "locate" in that popup.
+
+Your APK is at:
+   cug-final/android/app/build/outputs/apk/debug/app-debug.apk
+
+────────────────────────────────────────────────────────
+STEP 4 — Put it on your phone
+────────────────────────────────────────────────────────
+Option A (USB):
+   - Connect phone via USB, copy app-debug.apk to the phone, tap to install.
+Option B (easiest):
+   - Email the APK to yourself or send via WhatsApp, open on phone, tap install.
+
+If the phone says "install blocked / unknown source":
+   Settings → Security → allow installs from this app → try again.
+
+────────────────────────────────────────────────────────
+RUN DIRECTLY ON A CONNECTED PHONE (optional)
+────────────────────────────────────────────────────────
+1. On phone: Settings → About phone → tap "Build number" 7 times.
+2. Settings → Developer options → turn on "USB debugging".
+3. Connect phone via USB, accept the prompt on the phone.
+4. In Android Studio, your phone appears in the device dropdown (top bar).
+5. Click the green ▶ Run button. The app installs and opens automatically.
+
+────────────────────────────────────────────────────────
+IF YOU EVER CHANGE THE APP CODE
+────────────────────────────────────────────────────────
+The screens live in cug-final/src/App.jsx. If you edit them you must rebuild
+the web part and re-sync before building the APK again:
+   npm install --legacy-peer-deps
+   npm run build
+   npx cap sync android
+Then build the APK in Android Studio as above.
+(If you don't change the code, you never need the command line.)
