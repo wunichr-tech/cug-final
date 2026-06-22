@@ -11,6 +11,6 @@ const config: CapacitorConfig = {
     "allowMixedContent": true,
     "backgroundColor": "#1A0405"
   }
-};
+}
 
 export default config;
