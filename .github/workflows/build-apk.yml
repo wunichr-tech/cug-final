@@ -28,8 +28,14 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Remove any leftover TypeScript capacitor config
+        run: rm -f capacitor.config.ts
+
       - name: Install npm dependencies
         run: npm install --legacy-peer-deps
+
+      - name: Install TypeScript (safety net for cap sync)
+        run: npm install -D typescript --legacy-peer-deps
 
       - name: Build web app
         run: npm run build
